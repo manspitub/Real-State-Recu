@@ -1,12 +1,10 @@
 package com.salesianos.triana.RealState.Recu.RealStateRecu.model;
 
 
+import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +26,10 @@ public class Inmobiliaria {
     @OneToMany(mappedBy = "inmobiliaria")
     private List<Vivienda> viviendas = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "inmobiliaria", fetch = FetchType.EAGER)
+    private List<User> gestores = new ArrayList<>();
+
     public Inmobiliaria(String nombre, String email, String telefono) {
         this.nombre = nombre;
         this.email = email;
@@ -36,6 +38,17 @@ public class Inmobiliaria {
 
     public void removeInmobiliariaFromViviendas(){
         viviendas.forEach(v -> v.setInmobiliaria(null));
+    }
+
+    public void addGestor(User gestor){
+        this.getGestores().add(gestor);
+        gestor.setInmobiliaria(this);
+    }
+
+    public void removeGestor(User gestor){
+        if (this.gestores != null)
+            gestor.setInmobiliaria(null);
+            this.gestores.remove(this);
     }
 
 

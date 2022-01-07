@@ -1,6 +1,7 @@
 package com.salesianos.triana.RealState.Recu.RealStateRecu.model;
 
 import com.salesianos.triana.RealState.Recu.RealStateRecu.anotations.ValidLating;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
@@ -56,6 +57,13 @@ public class Vivienda {
 
     private boolean tieneGaraje;
 
+    /**
+     * Se elimina en cascada
+     */
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "propietario_id")
+    private User propietario;
+
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "inmobiliaria_id")
@@ -95,10 +103,24 @@ public class Vivienda {
         inmo.getViviendas().add(this);
     }
     public void removeInmobiliaria(){
-        if (this.inmobiliaria != null) {
+        if (this.inmobiliaria != null)
             this.inmobiliaria.getViviendas().remove(this);
-            this.setInmobiliaria(null);
+        this.setInmobiliaria(null);
+
+    }
+
+    public void addPropietario(User prop){
+        this.propietario = prop;
+        if (prop.getViviendas() == null){
+            prop.setViviendas(new ArrayList<>());
+            prop.getViviendas().add(this);
         }
+    }
+
+    public void removePropietario(){
+        if (this.propietario != null)
+            this.propietario.getViviendas().remove(this);
+        this.setPropietario(null);
     }
 
 

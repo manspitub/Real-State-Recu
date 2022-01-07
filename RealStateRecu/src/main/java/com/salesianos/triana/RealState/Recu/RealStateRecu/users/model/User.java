@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Inmobiliaria;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Interesa;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Vivienda;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Parameter;
@@ -32,6 +29,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
@@ -70,46 +68,61 @@ public class User implements UserDetails {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private UserRoles roles;
+
     @ManyToOne
     @JoinColumn(name = "inmo_id")
-    private Inmobiliaria inmo;
+    private Inmobiliaria inmobiliaria;
 
     @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "interesado", fetch = FetchType.EAGER)
     private List<Interesa> interesas = new ArrayList<>();
 
+
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Vivienda> viviendas = new ArrayList<>();
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roles.name()));
     }
 
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
+
+    public void addInmobiliaria(Inmobiliaria inmo){
+        this.inmobiliaria = inmo;
+
+    }
+
+
 }
