@@ -18,9 +18,9 @@ public class Inmobiliaria {
     @GeneratedValue
     private Long id;
 
-    private String nombre;
+    private String name;
     private String email;
-    private String telefono;
+    private String phone;
 
     @Builder.Default
     @OneToMany(mappedBy = "inmobiliaria")
@@ -30,10 +30,10 @@ public class Inmobiliaria {
     @OneToMany(mappedBy = "inmobiliaria", fetch = FetchType.EAGER)
     private List<User> gestores = new ArrayList<>();
 
-    public Inmobiliaria(String nombre, String email, String telefono) {
-        this.nombre = nombre;
+    public Inmobiliaria(String name, String email, String phone) {
+        this.name = name;
         this.email = email;
-        this.telefono = telefono;
+        this.phone = phone;
     }
 
     public void removeInmobiliariaFromViviendas(){

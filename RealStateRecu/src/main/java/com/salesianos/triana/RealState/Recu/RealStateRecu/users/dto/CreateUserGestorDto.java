@@ -1,25 +1,23 @@
 package com.salesianos.triana.RealState.Recu.RealStateRecu.users.dto;
 
-import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
+
 import lombok.*;
 
-import java.util.UUID;
-
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Getter @Setter
+@AllArgsConstructor
 @Builder
+public class CreateUserGestorDto {
 
-public class GetUserDto {
-
-    private UUID id;
     private String name;
     private String surnames;
     private String address;
     private String email;
     private String phone;
     private String avatar;
-    private UserRoles role;
-
+    private String password;
+    private String password2;
+    private Long idInmobiliaria;
 
 }

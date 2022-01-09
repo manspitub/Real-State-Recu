@@ -5,12 +5,12 @@ import lombok.*;
 
 import java.util.UUID;
 
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Getter @Setter
+@AllArgsConstructor
 @Builder
-
-public class GetUserDto {
+public class GetUserGestorDto {
 
     private UUID id;
     private String name;
@@ -20,6 +20,5 @@ public class GetUserDto {
     private String phone;
     private String avatar;
     private UserRoles role;
-
 
 }
