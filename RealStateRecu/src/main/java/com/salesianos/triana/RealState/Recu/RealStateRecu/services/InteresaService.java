@@ -2,8 +2,10 @@ package com.salesianos.triana.RealState.Recu.RealStateRecu.services;
 
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.ViviendaDtos.GetViviendaDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.ViviendaDtos.ViviendaDtoConverter;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Interesa;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Vivienda;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.repos.InteresaRepository;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.services.base.BaseService;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import java.util.List;
 
 @Service("interesaService")
 @RequiredArgsConstructor
-public class InteresaService {
+public class InteresaService extends BaseService<Interesa, Long, InteresaRepository> {
 
     @Autowired
     private final ViviendaDtoConverter dtoConverter;

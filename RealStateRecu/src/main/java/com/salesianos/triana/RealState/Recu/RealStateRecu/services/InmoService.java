@@ -3,6 +3,8 @@ package com.salesianos.triana.RealState.Recu.RealStateRecu.services;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InmobiliariaDtos.GetInmobiliariaDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InmobiliariaDtos.InmobiliariaDtoConverter;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Inmobiliaria;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.repos.InmobiliariaRepository;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.services.base.BaseService;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Service("inmoService")
 @RequiredArgsConstructor
-public class InmoService {
+public class InmoService extends BaseService<Inmobiliaria, Long, InmobiliariaRepository> {
 
     @Autowired
     private final InmobiliariaDtoConverter dtoConverter;
@@ -41,5 +43,7 @@ public class InmoService {
         }
         return belongs;
     }
+
+
 
 }
