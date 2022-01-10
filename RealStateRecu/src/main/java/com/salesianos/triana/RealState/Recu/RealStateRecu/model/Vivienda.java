@@ -123,6 +123,12 @@ public class Vivienda {
         this.setPropietario(null);
     }
 
+    public void removeInteresas(){
+        if (this.interesas != null)
+            this.getInteresas().remove(this);
+        this.setInteresas(null);
+    }
+
 
 
 
