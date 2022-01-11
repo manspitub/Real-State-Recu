@@ -3,26 +3,26 @@ package com.salesianos.triana.RealState.Recu.RealStateRecu.controller;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InteresaDtos.CreateInteresaDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InteresaDtos.GetInteresaDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InteresaDtos.InteresaDtoConverter;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.ViviendaDtos.GetViviendaDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Interesa;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Vivienda;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.repos.InteresaRepository;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.repos.ViviendaRepository;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.services.InteresaService;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.services.ViviendaService;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.users.dto.GetUserDto;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.users.dto.UserDtoConverter;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.repo.UserRepository;
+import com.salesianos.triana.RealState.Recu.RealStateRecu.users.services.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +31,9 @@ public class InteresaController {
     private final InteresaRepository repository;
     private final ViviendaRepository viviendaRepository;
     private final InteresaDtoConverter dtoConverter;
+    private final UserDtoConverter userDtoConverter;
     private final UserRepository userRepository;
+    private final InteresaService service;
 
     @PostMapping("vivienda/{id}/meinteresa")
     public ResponseEntity<GetInteresaDto> createInteresa (@RequestBody CreateInteresaDto interesaDto, @PathVariable Long id, @AuthenticationPrincipal User user) {
@@ -58,6 +60,7 @@ public class InteresaController {
 
     }
 
+    @DeleteMapping("vivienda/{id}/meinteresa")
     public ResponseEntity<?> deleteInteresa(@PathVariable Long id, @AuthenticationPrincipal User user){
 
         Optional<Vivienda> viviendaABuscar = viviendaRepository.findById(id);
@@ -72,6 +75,39 @@ public class InteresaController {
             }
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/interesado")
+    public ResponseEntity<List<User>> getInteresados(){
+
+        List<User> interesados = userRepository.findByRole(UserRoles.PROPIETARIO);
+
+        return ResponseEntity.ok().body(interesados);
+
+    }
+
+    @GetMapping("interesado/{id}")
+    public ResponseEntity<GetUserDto> findInteresado(@PathVariable UUID id, @AuthenticationPrincipal User user){
+
+        Optional<User> interesadoABuscar = userRepository.findById(id);
+
+        if (interesadoABuscar.isPresent()){
+            if (interesadoABuscar.get().getId().equals(user.getId()) || user.getRoles().equals(UserRoles.ADMIN)){
+                return ResponseEntity.ok(userDtoConverter.userToGetUserDto(interesadoABuscar.get()));
+            }else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+
+
+    }
+
+    public ResponseEntity<List<GetViviendaDto>> viviendasTopInteresas(){
+        return ResponseEntity.ok(service.topViviendaDto());
     }
 
 

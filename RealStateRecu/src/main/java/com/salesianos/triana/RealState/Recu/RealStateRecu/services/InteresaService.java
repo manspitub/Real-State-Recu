@@ -28,14 +28,12 @@ public class InteresaService extends BaseService<Interesa, Long, InteresaReposit
         return repository.findInteresados();
     }
 
-    public List<Vivienda> top10Viviendas(){
-        return repository.top10ViviendasInteresas();
-    }
+
 
     public List<GetViviendaDto> topViviendaDto(){
         List<GetViviendaDto> viviendas = new ArrayList<>();
 
-        top10Viviendas().forEach(v ->{
+        repository.top10ViviendasInteresas().forEach(v ->{
             viviendas.add(dtoConverter.viviendaToGetViviendaDto(v));
         });
         return viviendas;

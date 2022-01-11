@@ -32,7 +32,7 @@ public class ViviendaService extends BaseService<Vivienda, Long, ViviendaReposit
         Optional<User> prop = userRepo.findById(u.getId());
         if (prop.isPresent()) {
             List<Vivienda> viviendasPropietario = prop.get().getViviendas();
-            viviendasPropietario.stream().forEach(vivienda -> {
+            viviendasPropietario.forEach(vivienda -> {
                 getViviendas.add(dtoConverter.viviendaToGetViviendaDto(vivienda));
             });
         }

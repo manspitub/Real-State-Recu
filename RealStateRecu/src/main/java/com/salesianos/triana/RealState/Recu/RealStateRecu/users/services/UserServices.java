@@ -28,7 +28,7 @@ public class UserServices extends BaseService<User, UUID, UserRepository> implem
 
     private final PasswordEncoder passwordEncoder;
     private final InmoService inmoService;
-    private final UserDtoConverter converter
+    private final UserDtoConverter converter;
 
 
     @Override
@@ -49,7 +49,7 @@ public class UserServices extends BaseService<User, UUID, UserRepository> implem
 
     public User saveProp(CreateUserDto newUser){
 
-        if (newUser.getPassword().contentEquals(newUser.getPassword2()) || newUser.getEmail().equals(this.repositorio.findFirstByEmail(newUser.getEmail()))) {
+        if (newUser.getPassword().contentEquals(newUser.getPassword2()) || newUser.getEmail().equals(this.repositorio.findFirstByEmail(newUser.getEmail()).toString())) {
             User usuario = User.builder()
                     .name(newUser.getName())
                     .surname(newUser.getSurnames())
@@ -70,7 +70,7 @@ public class UserServices extends BaseService<User, UUID, UserRepository> implem
     }
 
     public User saveGestor(CreateUserGestorDto gestor){
-        if (gestor.getPassword().contentEquals(gestor.getPassword2()) || gestor.getEmail().equals(this.repositorio.findFirstByEmail(gestor.getEmail()))) {
+        if (gestor.getPassword().contentEquals(gestor.getPassword2()) || gestor.getEmail().equals(this.repositorio.findFirstByEmail(gestor.getEmail()).toString())) {
 
             User user = User.builder()
                     .name(gestor.getName())
@@ -86,9 +86,7 @@ public class UserServices extends BaseService<User, UUID, UserRepository> implem
 
             Optional<Inmobiliaria> inmobiliariaABuscar = inmoService.findById(gestor.getIdInmobiliaria());
 
-            if (inmobiliariaABuscar.isPresent()){
-                user.addInmobiliaria(inmobiliariaABuscar.get());
-            }
+            inmobiliariaABuscar.ifPresent(user::addInmobiliaria);
             return save(user);
 
         } else {
@@ -98,7 +96,7 @@ public class UserServices extends BaseService<User, UUID, UserRepository> implem
 
     public User saveAdmin(CreateUserDto admin){
 
-        if (admin.getPassword().contentEquals(admin.getPassword2()) || admin.getEmail().equals(this.repositorio.findFirstByEmail(admin.getEmail()))) {
+        if (admin.getPassword().contentEquals(admin.getPassword2()) || admin.getEmail().equals(this.repositorio.findFirstByEmail(admin.getEmail()).toString())) {
             User user = User.builder()
                     .name(admin.getName())
                     .surname(admin.getSurnames())
