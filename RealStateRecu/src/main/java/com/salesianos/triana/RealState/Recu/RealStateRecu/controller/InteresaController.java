@@ -80,7 +80,7 @@ public class InteresaController {
     @GetMapping("/interesado")
     public ResponseEntity<List<User>> getInteresados(){
 
-        List<User> interesados = userRepository.findByRole(UserRoles.PROPIETARIO);
+        List<User> interesados = userRepository.findByRoles(UserRoles.PROPIETARIO);
 
         return ResponseEntity.ok().body(interesados);
 

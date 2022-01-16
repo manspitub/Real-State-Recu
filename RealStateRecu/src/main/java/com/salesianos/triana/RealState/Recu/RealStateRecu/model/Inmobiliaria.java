@@ -12,6 +12,15 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @Builder
+@NamedEntityGraphs(
+        @NamedEntityGraph(
+                name = "grafo-inmo-viviendas",
+                attributeNodes = {
+                        @NamedAttributeNode("viviendas")
+                }
+
+        )
+)
 public class Inmobiliaria {
 
     @Id

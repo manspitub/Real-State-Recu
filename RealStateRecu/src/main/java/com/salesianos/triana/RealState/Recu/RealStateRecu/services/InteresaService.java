@@ -18,10 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InteresaService extends BaseService<Interesa, Long, InteresaRepository> {
 
-    @Autowired
+
     private final ViviendaDtoConverter dtoConverter;
 
-    @Autowired
     private final InteresaRepository repository;
 
     public List<User> getInteresados(){

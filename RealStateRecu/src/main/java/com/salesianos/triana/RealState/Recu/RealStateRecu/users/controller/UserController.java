@@ -8,6 +8,7 @@ import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.repo.UserRepository;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.services.UserServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -74,19 +75,34 @@ public class UserController {
     @GetMapping("/propietarios")
     public ResponseEntity<List<GetUserDto>> getPropietarios(){
         List<GetUserDto> propietarios = new ArrayList<>();
-        repo.findByRole(UserRoles.PROPIETARIO).forEach(p->{
+        repo.findByRoles(UserRoles.PROPIETARIO).forEach(p->{
             propietarios.add(converter.userToGetUserDto(p));
         });
         return ResponseEntity.ok(propietarios);
     }
 
-    @GetMapping("/propietario/{id}")
-    public ResponseEntity<GetUserDto> getPropietarioViviendas(@PathVariable UUID id, @AuthenticationPrincipal User user){
-        Optional<User> propietario = repo.findById(id);
+    /**
+     * Solo se podrá eliminar el usuario propietario en si o un ADMIN
+     * @param id
+     * @param user
+     * @return
+     */
 
-        if (propietario.isPresent()) {
-            return ResponseEntity.ok(propietario.stream().map(userPropietarioDto.))
+    public ResponseEntity<?> deletePropietario(@PathVariable UUID id, @AuthenticationPrincipal User user){
+
+        Optional<User> userABuscar = repo.findById(id);
+
+        if (userABuscar.isPresent()){
+            if (user.getId().equals(userABuscar.get().getId()) || user.getRoles().equals(UserRoles.ADMIN)){
+                repo.deleteById(id);
+                return ResponseEntity.noContent().build();
+            } else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
         }
+
+        return ResponseEntity.noContent().build();
+
     }
 
 }

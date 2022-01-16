@@ -26,7 +26,7 @@ public interface InteresaRepository extends JpaRepository<Interesa, Long> {
             GROUP BY viv.id
             ORDER BY COUNT(*) DESC
             LIMIT 10);
-            """)
+            """, nativeQuery = true)
     List<Vivienda> top10ViviendasInteresas();
 
 

@@ -2,7 +2,7 @@ package com.salesianos.triana.RealState.Recu.RealStateRecu.dto.ViviendaDtos;
 
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Vivienda;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
-import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
+
 
 public class ViviendaDtoConverter {
 

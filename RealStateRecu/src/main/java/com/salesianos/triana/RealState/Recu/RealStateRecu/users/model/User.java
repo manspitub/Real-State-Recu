@@ -29,7 +29,6 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
@@ -93,11 +92,11 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_" + roles.name()));
     }
 
-
     @Override
     public String getUsername() {
         return email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

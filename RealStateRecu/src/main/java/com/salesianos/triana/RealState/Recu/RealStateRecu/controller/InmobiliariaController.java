@@ -1,6 +1,7 @@
 package com.salesianos.triana.RealState.Recu.RealStateRecu.controller;
 
 
+import com.salesianos.triana.RealState.Recu.RealStateRecu.PaginationLinksUtils;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InmobiliariaDtos.CreateGestorInmoDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InmobiliariaDtos.CreateInmobiliariaDto;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.dto.InmobiliariaDtos.GetInmobiliariaDto;
@@ -15,6 +16,9 @@ import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.repo.UserRepository;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.services.UserServices;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +27,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,13 +48,28 @@ public class InmobiliariaController {
     private final InmoService service;
     private final UserRepository userRepository;
     private final UserServices uServices;
+    private final PaginationLinksUtils paginationLinksUtils;
 
 
+
+    @ApiOperation(value = "Get", notes = "Devuelve una lista con todas las inmos")
+    @ApiResponses({
+            @ApiResponse(code = HttpServletResponse.SC_OK, message = "")
+    })
     @GetMapping("/inmobiliaria")
-    public ResponseEntity<List<GetInmobiliariaDto>> findAllInmos(@PageableDefault(size = 10, page = 0)Pageable pageable, HttpServletRequest request)  {
-        List<GetInmobiliariaDto> inmos = service.inmoToGetInmoDto(service.findAll());
+    public ResponseEntity<Page<GetInmobiliariaDto>> findAllInmos(@PageableDefault(size = 10, page = 0)Pageable pageable, HttpServletRequest request)  {
+        Page<Inmobiliaria> data= service.findAll(pageable);
+        if (data.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else {
+            Page<GetInmobiliariaDto> result=
+                    data.map(inmoConverter::inmobiliariaToGetInmobiliariaDto);
 
-        return ResponseEntity.ok(inmos);
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
+
+            return ResponseEntity.ok().header("Link" ,
+                    paginationLinksUtils.createLinkHeader(result , uriBuilder)).body(result);
+        }
     }
 
     @PostMapping("/inmobiliaria")
