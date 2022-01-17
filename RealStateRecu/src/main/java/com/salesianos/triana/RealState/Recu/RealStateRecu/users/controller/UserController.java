@@ -22,11 +22,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
 
-    private UserServices services;
-    private UserDtoConverter converter;
-    private UserRepository repo;
-    private ViviendaService viviendaService;
-    private GetUserPropietarioDto userPropietarioDto;
+    private final UserServices services;
+    private final UserDtoConverter converter;
+    private final UserRepository repo;
+
 
     @PostMapping("auth/register/user")
     public ResponseEntity<GetUserDto> newPropietario(@RequestBody CreateUserDto nuevoUser){

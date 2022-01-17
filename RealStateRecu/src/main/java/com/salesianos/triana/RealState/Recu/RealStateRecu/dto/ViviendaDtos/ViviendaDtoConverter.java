@@ -2,8 +2,9 @@ package com.salesianos.triana.RealState.Recu.RealStateRecu.dto.ViviendaDtos;
 
 import com.salesianos.triana.RealState.Recu.RealStateRecu.model.Vivienda;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ViviendaDtoConverter {
 
     public Vivienda createViviendaDtoToVivienda(CreateViviendaDto v){
