@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -42,12 +43,19 @@ import java.util.UUID;
 
 public class InmobiliariaController {
 
+    @Autowired
     private final InmobiliariaRepository repo;
+    @Autowired
     private final InmobiliariaDtoConverter inmoConverter;
+    @Autowired
     private final UserDtoConverter userDtoConverter;
+    @Autowired
     private final InmoService service;
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final UserServices uServices;
+    @Autowired
     private final PaginationLinksUtils paginationLinksUtils;
 
 

@@ -27,7 +27,10 @@ public class UserController {
     private UserServices services;
     @Autowired
     private UserDtoConverter converter;
+
+    @Autowired
     private UserRepository repo;
+    @Autowired
     private ViviendaService viviendaService;
     private GetUserPropietarioDto userPropietarioDto;
 
@@ -75,6 +78,8 @@ public class UserController {
         }
 
     }
+
+    //Necesitas loguearte para acceder a la lista de propietarios
     @GetMapping("/propietarios")
     public ResponseEntity<List<GetUserDto>> getPropietarios(){
         List<GetUserDto> propietarios = new ArrayList<>();

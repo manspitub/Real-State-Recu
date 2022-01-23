@@ -12,6 +12,7 @@ import com.salesianos.triana.RealState.Recu.RealStateRecu.repos.ViviendaReposito
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,9 +30,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ViviendaController {
 
+    @Autowired
     private final ViviendaDtoConverter converter;
+    @Autowired
     private final ViviendaRepository repo;
+    @Autowired
     private final InmobiliariaRepository inmoRepo;
+    @Autowired
     private final PaginationLinksUtils paginationLinksUtils;
 
 

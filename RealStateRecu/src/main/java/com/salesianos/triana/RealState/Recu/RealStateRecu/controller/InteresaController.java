@@ -17,6 +17,7 @@ import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.repo.UserRepository;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.services.UserServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,11 +29,17 @@ import java.util.*;
 @RequiredArgsConstructor
 public class InteresaController {
 
+    @Autowired
     private final InteresaRepository repository;
+    @Autowired
     private final ViviendaRepository viviendaRepository;
+    @Autowired
     private final InteresaDtoConverter dtoConverter;
+    @Autowired
     private final UserDtoConverter userDtoConverter;
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final InteresaService service;
 
     @PostMapping("vivienda/{id}/meinteresa")
