@@ -37,7 +37,8 @@ public class Vivienda {
     @URL
     private String avatar;
 
-    @ValidLating
+    //Lo comento porque me da problemas al crear una vivienda
+    //@ValidLating
     private String lating;
 
     private String direccion;

@@ -8,6 +8,7 @@ import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.UserRoles;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.repo.UserRepository;
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.services.UserServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +23,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
 
+    @Autowired
     private UserServices services;
+    @Autowired
     private UserDtoConverter converter;
     private UserRepository repo;
     private ViviendaService viviendaService;
