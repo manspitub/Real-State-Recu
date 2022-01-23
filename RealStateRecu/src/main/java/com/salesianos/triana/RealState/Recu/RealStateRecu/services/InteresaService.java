@@ -9,6 +9,7 @@ import com.salesianos.triana.RealState.Recu.RealStateRecu.services.base.BaseServ
 import com.salesianos.triana.RealState.Recu.RealStateRecu.users.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import java.util.List;
 @Service("interesaService")
 @RequiredArgsConstructor
 public class InteresaService extends BaseService<Interesa, Long, InteresaRepository> {
-
 
     private final ViviendaDtoConverter dtoConverter;
 
