@@ -38,7 +38,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin
 @RequiredArgsConstructor
 
 public class InmobiliariaController {
@@ -109,7 +108,7 @@ public class InmobiliariaController {
         }
     }
 
-    @DeleteMapping("/gestor/{id}")
+    @DeleteMapping("inmobiliaria/gestor/{id}")
     public ResponseEntity<?> removeGestor(@PathVariable UUID id, @AuthenticationPrincipal User userLogged){
 
         Optional<User> gestor = userRepository.findById(id);
@@ -143,6 +142,10 @@ public class InmobiliariaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+
+
 
 
 

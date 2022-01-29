@@ -14,7 +14,6 @@ public class GetInmobiliariaDto {
 
     private Long id;
     private String name, email, phone;
-    private List<User> gestores;
     private List<Vivienda> viviendas;
 
 }

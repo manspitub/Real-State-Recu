@@ -113,6 +113,7 @@ public class InteresaController {
 
     }
 
+    @GetMapping("vivienda/top10")
     public ResponseEntity<List<GetViviendaDto>> viviendasTopInteresas(){
         return ResponseEntity.ok(service.topViviendaDto());
     }

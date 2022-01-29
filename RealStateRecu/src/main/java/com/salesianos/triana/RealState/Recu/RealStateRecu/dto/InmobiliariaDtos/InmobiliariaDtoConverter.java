@@ -22,7 +22,6 @@ public class InmobiliariaDtoConverter {
                 .name(i.getName())
                 .phone(i.getPhone())
                 .email(i.getEmail())
-                .gestores(i.getGestores())
                 .viviendas(i.getViviendas())
                 .build();
 
